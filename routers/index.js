@@ -1,12 +1,15 @@
 import { Router } from 'express';
 
-import { welcomeMessage, signUP } from '../controllers/users';
+import User from '../controllers/userController'
 
 const router = Router();
 
-router.get('/', welcomeMessage);
+router.get('/', function(req, res){
+    res.send("Hello World");
+});
 
-router.post('/signup', signUP);
-
+router.post('/signup', User.register);
+router.post('/signin', User.login)
 
 export default router;
+
