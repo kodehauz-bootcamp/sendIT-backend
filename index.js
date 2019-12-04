@@ -1,11 +1,10 @@
-import express from 'express';
-import logger from 'morgan';
-import bodyParser from 'body-parser';
-import dotenv from 'dotenv';
-import mongoose from 'mongoose';
-
-import router from './routers/index';
-import User from './routers/user'
+const express = require('express');
+const logger = require( 'morgan');
+const bodyParser = require('body-parser');
+const dotenv = require('dotenv');
+const mongoose = require('mongoose');
+const router = require('./routers/index');
+const User = require('./routers/user');
 
 dotenv.config()
 
