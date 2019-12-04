@@ -7,7 +7,7 @@
     "start": "node index.js",
     "dev": "nodemon index.js --ignore tests",
     "heroku-postbuild": "npm run build",
-    "build": "--exec babel-node index.js -d lib/"
+    "build": "babel index.js -d lib/"
   },
   "repository": {
     "type": "git",
