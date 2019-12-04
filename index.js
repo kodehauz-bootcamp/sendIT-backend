@@ -4,7 +4,8 @@ import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 
-import router from './routers';
+import router from './routers/index';
+import User from './routers/user'
 
 dotenv.config()
 
@@ -17,12 +18,16 @@ app.use(bodyParser.urlencoded({
   extended: true
 }))
 
-app.use('/api/v1', router);
+app.use('/api/v1', [router, User]);
 
 mongoose.connect(process.env.DATABASE_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true
-});
+}, function (err, client) {
+    if(err) console.log(err.message)
+    if(client) console.log('Databse Connected Successsful')
+  }
+);
 
 app.listen(port, ()=>{
   console.log (`server started at ${port}`)
