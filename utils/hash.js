@@ -6,4 +6,8 @@ const hash = async function (user) {
   await user.save();
 }
 
-module.exports = hash;
+const compareHash = async function (password, passwordConfirm) {
+  return await bcrypt.compare(password, passwordConfirm)
+}
+
+module.exports = {hash, compareHash};
