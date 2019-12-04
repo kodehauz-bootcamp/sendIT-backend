@@ -12,4 +12,4 @@ router.get('/me', Auth, getUser );
 
 router.delete('/logout', Auth, userLogout );
 
-export default router;
+module.exports = router;

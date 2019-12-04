@@ -4,11 +4,10 @@
   "description": "The backend repository of the KodeHauz sendIT app.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node --exec babel-node index.js",
-    "dev": "nodemon --exec babel-node index.js",
+    "start": "node index.js",
+    "dev": "nodemon index.js --ignore tests",
     "heroku-postbuild": "npm run build",
-    "build": "babel index.js -d lib/"
+    "build": "--exec babel-node index.js -d lib/"
   },
   "repository": {
     "type": "git",
