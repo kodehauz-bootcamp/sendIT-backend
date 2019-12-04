@@ -18,7 +18,8 @@ app.use(bodyParser.urlencoded({
   extended: true
 }))
 
-app.use('/api/v1', [router, User]);
+app.use('/', router)
+app.use('/api/v1', [ User]);
 
 mongoose.connect(process.env.DATABASE_URL, {
   useNewUrlParser: true,
