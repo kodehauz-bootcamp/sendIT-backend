@@ -9,7 +9,7 @@ const User = require('./routers/user');
 dotenv.config()
 
 const app = express();
-const port = parseInt(process.env.PORT, 10) || 5000;
+const PORT = parseInt(process.env.PORT, 10) || 5000;
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -29,6 +29,6 @@ mongoose.connect(process.env.DATABASE_URL, {
   }
 );
 
-app.listen(port, ()=>{
-  console.log (`server started at ${port}`)
+app.listen(PORT, ()=>{
+  console.log (`server started at ${PORT}`)
 });
