@@ -26,7 +26,7 @@ module.exports = {
 			await hash(user);
 
 			await user.save();
-			response.status(201).send({ message: 'Success', user, token });
+			response.header('x-auth-token', token).status(201).send({ message: 'Success', user, token });
 		} catch (e) {
 			response.status(500).send(e.message);
 		}
@@ -50,7 +50,7 @@ module.exports = {
 			}
 			const token = await generateAuthToken(user);
 
-			response.status(201).send({ message: 'Success', user, token });
+			response.header('x-auth-token', token).status(201).send({ message: 'Success', user, token });
 		} catch (e) {
 			response.status(500).send(e.message);
 		}
