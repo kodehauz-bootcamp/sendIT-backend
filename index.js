@@ -3,6 +3,7 @@ const logger = require('morgan');
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
+var cors = require('cors');
 const router = require('./routers/index');
 const User = require('./routers/user');
 const Contact = require('./routers/contact');
@@ -20,11 +21,13 @@ app.use(
 	})
 );
 
+app.use(cors());
+
 //to allow control allow origin
-app.use((req, res, next) => {
-	res.header('Access-Control-Allow-Origin', '*');
-	next();
-});
+// app.use((req, res, next) => {
+// 	res.header('Access-Control-Allow-Origin', '*');
+// 	next();
+// });
 
 app.use('/', router);
 app.use('/api/v1', [ User, Contact ]);
