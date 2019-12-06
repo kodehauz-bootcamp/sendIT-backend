@@ -20,6 +20,12 @@ app.use(
 	})
 );
 
+//to allow control allow origin
+app.use((req, res, next) => {
+	res.header('Access-Control-Allow-Origin', '*');
+	next();
+});
+
 app.use('/', router);
 app.use('/api/v1', [ User, Contact ]);
 
