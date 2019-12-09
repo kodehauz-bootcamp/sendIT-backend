@@ -1,6 +1,6 @@
-const Admin = require('./../models/admin');
-const generateAuthToken = require('./../utils/generateToken');
-const { hash, compareHash } = require('./../utils/hash');
+const User = require('../models/user');
+const generateAuthToken = require('../utils/generateToken');
+const { hash, compareHash } = require('../utils/hash');
 
 module.exports = {
 	async CreateAdmin(request, response) {
@@ -24,7 +24,7 @@ module.exports = {
 			await hash(admin);
 
 			await admin.save();
-			response.header('x-auth-token', token).status(201).send({ message: 'Success', admin, token });
+			response.header('x-auth-token', token).status(201).send({ message: 'Success', admin });
 		} catch (e) {
 			response.status(500).send(e.message);
 		}
@@ -48,23 +48,23 @@ module.exports = {
 			}
 			const token = await generateAuthToken(admin);
 
-			response.header('x-auth-token', token).status(201).send({ message: 'Success', admin, token });
+			response.header('x-auth-token', token).status(201).send({ message: 'Success', token });
 		} catch (e) {
 			response.status(500).send(e.message);
 		}
 	},
 
-	async getUser(request, response) {
-		response.send(request.admin);
+	async getAdmin(request, response) {
+		response.send(request.user);
 	},
 
-	async userLogout(request, response) {
+	async adminLogout(request, response) {
 		// return console.log(userProfile)
 		try {
-			const userProfile = request.admin;
-			userProfile.tokens = [];
-			await userProfile.save();
-			return response.status(200).send(userProfile);
+			const adminProfile = request.user;
+			adminProfile.tokens = [];
+			await adminProfile.save();
+			return response.status(200).send(adminProfile);
 		} catch (e) {
 			response.status(400).send(e.message);
 		}

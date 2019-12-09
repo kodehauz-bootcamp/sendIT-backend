@@ -4,7 +4,7 @@ const { hash, compareHash } = require('./../utils/hash');
 
 module.exports = {
 	async CreateUser(request, response) {
-		const { password, passwordConfirm, username, email, phone, address } = request.body;
+		const { password, passwordConfirm, username, email, phone, address, role } = request.body;
 
 		try {
 			const userCheck = await User.findOne({ email });
@@ -20,13 +20,14 @@ module.exports = {
 				email: email,
 				password: password,
 				phone: phone,
-				address: address
+				address: address,
+				role: role || 'user'
 			});
 			const token = await generateAuthToken(user);
 			await hash(user);
 
 			await user.save();
-			response.header('x-auth-token', token).status(201).send({ message: 'Success', user, token });
+			response.header('x-auth-token', token).status(201).send({ message: 'Success', user });
 		} catch (e) {
 			response.status(500).send(e.message);
 		}
@@ -50,7 +51,7 @@ module.exports = {
 			}
 			const token = await generateAuthToken(user);
 
-			response.header('x-auth-token', token).status(201).send({ message: 'Success', user, token });
+			response.header('x-auth-token', token).status(201).send({ token });
 		} catch (e) {
 			response.status(500).send(e.message);
 		}

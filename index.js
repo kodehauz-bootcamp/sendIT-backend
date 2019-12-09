@@ -3,9 +3,10 @@ const logger = require('morgan');
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
-var cors = require('cors');
+const cors = require('cors');
 const router = require('./routers/index');
 const User = require('./routers/user');
+const Admin = require('./routers/admin');
 const Contact = require('./routers/contact');
 
 dotenv.config();
@@ -30,7 +31,7 @@ app.use(cors());
 // });
 
 app.use('/', router);
-app.use('/api/v1', [ User, Contact ]);
+app.use('/api/v1', [ User, Contact, Admin ]);
 
 mongoose.connect(
 	process.env.DATABASE_URL,
