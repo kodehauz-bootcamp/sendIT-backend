@@ -38,5 +38,12 @@ const userSchema = mongoose.Schema(
 	}
 );
 
+//using virtual to create a relationship between user and owned directories
+userSchema.virtual('parcel_order', {
+	ref: 'parcel_order',
+	localField: '_id',
+	foreignField: 'owner'
+});
+
 const User = mongoose.model('user', userSchema);
 module.exports = User;
