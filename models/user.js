@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const userSchema = mongoose.Schema(
 	{
-		username: {
+		full_name: {
 			type: String
 		},
 		email: {
@@ -20,6 +20,11 @@ const userSchema = mongoose.Schema(
 		address: {
 			type: String
 		},
+
+		image: {
+			type: String
+		},
+
 		role: {
 			type: String
 		},
@@ -42,7 +47,7 @@ const userSchema = mongoose.Schema(
 userSchema.virtual('parcel_order', {
 	ref: 'parcel_order',
 	localField: '_id',
-	foreignField: 'owner'
+	foreignField: 'ownerId'
 });
 
 const User = mongoose.model('user', userSchema);

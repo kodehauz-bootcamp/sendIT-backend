@@ -7,6 +7,7 @@ function isAdmin(req, res, next) {
 
 function isUser(req, res, next) {
 	const { role } = req.user;
+	// return console.log(role);
 	if (role != 'user') return res.status(409).send({ message: 'You are not authorized' });
 	else next();
 }

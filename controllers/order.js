@@ -1,6 +1,23 @@
 const Order = require('../models/order');
 
 module.exports = {
+	//simple testing router
+	async CreateOrder(request, response) {
+		const user = request.user;
+		//adding the owner id to help know who created the id
+		const order = new Order({
+			...request.body,
+			ownerId: user._id
+		});
+
+		try {
+			const NewOrder = await order.save();
+			response.status(201).send({ NewOrder });
+		} catch (err) {
+			response.status(400).send(err);
+		}
+	},
+
 	async updateOrder(request, response) {
 		//setting up validation for the keys to be updated
 		const updates = Object.keys(request.body);
@@ -35,24 +52,14 @@ module.exports = {
 		}
 	},
 
-	//simple testing router
-	async CreateOrder(request, response) {
-		const user = request.user;
-		//adding the owner id to help know who created the id
-		const order = new Order({
-			...request.body,
-			owner: user._id
-		});
-
+	async getAllOrder(request, response) {
 		try {
-			const NewOrder = await order.save();
-			response.status(201).send({ NewOrder });
-		} catch (err) {
-			response.status(400).send(err);
-		}
+			const order = Order.find();
+			response.status(200).send({ message: 'Success', order });
+		} catch (error) {}
 	},
 
-	async getOrder(request, response) {
+	async getUserOrders(request, response) {
 		const match = {};
 		const sort = {};
 
@@ -68,6 +75,7 @@ module.exports = {
 
 		try {
 			const user = request.user;
+			// return console.log(user);
 			// const tasks = await Order.find({ owner: userProfile._id })
 			await user
 				.populate({
