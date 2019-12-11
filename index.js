@@ -8,6 +8,7 @@ const router = require('./routers/index');
 const User = require('./routers/user');
 const Admin = require('./routers/admin');
 const Contact = require('./routers/contact');
+const Order = require('./routers/order');
 
 dotenv.config();
 
@@ -31,7 +32,7 @@ app.use(cors());
 // });
 
 app.use('/', router);
-app.use('/api/v1', [ User, Contact, Admin ]);
+app.use('/api/v1', [ User, Contact, Admin, Order ]);
 
 mongoose.connect(
 	process.env.DATABASE_URL,

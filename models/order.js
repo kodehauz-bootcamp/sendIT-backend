@@ -3,26 +3,31 @@ const mongoose = require('mongoose');
 const orderSchema = mongoose.Schema(
 	{
 		parcel_name: {
-			type: String
+			type: String,
+			trim: true
 		},
 
 		weight: {
-			type: String
+			type: String,
+			trim: true
 		},
 
 		location: {
-			type: String
+			type: String,
+			trim: true
 		},
 
 		destination: {
-			type: Number
+			type: String,
+			trim: true
 		},
 
 		phone_number: {
-			type: String
+			type: Number,
+			trim: true
 		},
 
-		owner: {
+		ownerId: {
 			type: mongoose.Schema.Types.ObjectId,
 			trim: true,
 			required: true,
@@ -34,5 +39,5 @@ const orderSchema = mongoose.Schema(
 	}
 );
 
-const Order = mongoose.model('parcel_order', orderSchema);
+const Order = mongoose.model('orderTable', orderSchema);
 module.exports = Order;
