@@ -4,7 +4,7 @@ const { hash, compareHash } = require('./../utils/hash');
 
 module.exports = {
 	async CreateUser(request, response) {
-		const { password, passwordConfirm, username, email, phone, address, role } = request.body;
+		const { password, passwordConfirm, full_name, email, phone, address, role } = request.body;
 
 		try {
 			const userCheck = await User.findOne({ email });
@@ -15,7 +15,7 @@ module.exports = {
 			// 	return response.status(401).send({ message: 'Password is not correctly alligned' });
 			// }
 			const user = new User({
-				username: username,
+				full_name: username,
 				email: email,
 				password: password,
 				phone: phone,
