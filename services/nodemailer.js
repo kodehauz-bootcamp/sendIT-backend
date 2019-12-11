@@ -4,11 +4,12 @@ let options;
 
 if (process.env.NODE === 'production') {
 	options = {
-		host: 'smtp.sendgrid.net',
-		port: 587,
+		host: `${process.env.EMAIL_HOST}`,
+		port: `${process.env.EMAIL_HOST_PORT}`,
+		// secure: `${process.env.EMAIL_HOST_SECURE}`, // true for 465, false for other ports
 		auth: {
-			user: 'real.user',
-			pass: 'secret'
+			user: `${process.env.EMAIL_ID}`,
+			pass: `${process.env.EMAIL_PASS}`
 		}
 	};
 } else {
