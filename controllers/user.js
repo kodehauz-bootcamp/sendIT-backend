@@ -33,41 +33,6 @@ module.exports = {
 		}
 	},
 
-	async updateUserAccount(request, response) {
-		response.send('i am here');
-		return console.log(request.user);
-		//setting up validation for the keys to be updated
-		const updates = Object.keys(request.body);
-		const allowable = [ 'full_name', 'phone', 'address' ];
-		const isValid = updates.every((update) => allowable.includes(update));
-
-		//Prompt invalid order inputs
-		if (!isValid) {
-			return response.status(404).send(' Error: Invalid Order Input ');
-		}
-
-		const _id = request.params.id;
-
-		//Send valid data for update
-		try {
-			const updatedUser = await Order.findOne({ _id });
-			if (!updatedUser) {
-				return response.status(404).send('Order not Found');
-			}
-
-			updates.forEach((update) => (updatedUser[update] = request.body[update]));
-
-			await updatedUser.save();
-
-			return response.status(200).send({
-				Message: 'Update Successful',
-				updatedUser
-			});
-		} catch (e) {
-			console.log(e);
-		}
-	},
-
 	async loginUser(request, response) {
 		try {
 			const { email, password } = request.body;
@@ -133,6 +98,38 @@ module.exports = {
 			}
 		} catch (err) {
 			response.status(400).send(err);
+		}
+	},
+
+	async updatedUser(request, response) {
+		// response.send('i am here');
+		// return console.log(request.user);
+		//setting up validation for the keys to be updated
+		const updates = Object.keys(request.body);
+		const allowable = [ 'full_name', 'phone', 'address' ];
+		const isValid = updates.every((update) => allowable.includes(update));
+
+		//Prompt invalid order inputs
+		if (!isValid) {
+			return response.status(404).send(' Error: Invalid Order Input ');
+		}
+		//Send valid data for update
+		try {
+			const updatedUser = request.user;
+			if (!updatedUser) {
+				return response.status(404).send('User not Found');
+			}
+
+			updates.forEach((update) => (updatedUser[update] = request.body[update]));
+
+			await updatedUser.save();
+
+			return response.status(201).send({
+				Message: 'Update Successful',
+				updatedUser
+			});
+		} catch (e) {
+			console.log(e);
 		}
 	}
 };

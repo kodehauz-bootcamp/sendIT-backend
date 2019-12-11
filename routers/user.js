@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const Auth = require('./../middleware/Auth');
-const { CreateUser, loginUser, userLogout, getUser, updateUserAccount, uploadImage } = require('../controllers/user');
+const { CreateUser, loginUser, userLogout, getUser, updatedUser, uploadImage } = require('../controllers/user');
 const upload = require('./../services/upload');
 const { isUser } = require('./../middleware/isAdmin');
 
@@ -14,7 +14,9 @@ router.post('/login', loginUser);
 
 router.get('/me', [ Auth, isUser ], getUser);
 
-router.patch('/update/user/:id', [ Auth, isUser ], updateUserAccount);
+// router.get('/update', [ Auth, isUser ], updatedUser )
+
+router.patch('/update/user', [ Auth, isUser ], updatedUser);
 
 router.delete('/logout', [ Auth, isUser ], userLogout);
 
