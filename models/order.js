@@ -27,6 +27,10 @@ const orderSchema = mongoose.Schema(
 			trim: true
 		},
 
+		status: {
+			type: String
+		},
+
 		ownerId: {
 			type: mongoose.Schema.Types.ObjectId,
 			trim: true,
