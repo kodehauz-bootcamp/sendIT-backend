@@ -1,4 +1,5 @@
 const Order = require('../models/order');
+const { sendProcessingNotification, sendDeliveredNotification } = require('./../services/EmailSender');
 
 module.exports = {
 	//simple testing router
@@ -133,6 +134,42 @@ module.exports = {
 			});
 		} catch (e) {
 			response.status(500).send(e);
+		}
+	},
+
+	async notifyProcessing(request, response) {
+		const user = request.user;
+		try {
+			const { role } = user;
+			if (role != 'admin') return response.status(401).send('You cannot perform this function');
+
+			const _id = request.params.id;
+			const order = await Order.findOne({ _id });
+
+			order.status = 'Processing';
+			await order.save();
+
+			return response.status(200).send({ message: 'The Order is in Process', status: order.status });
+		} catch (error) {
+			response.status(500).send(error.message);
+		}
+	},
+
+	async notifyDelivered(request, response) {
+		const user = request.user;
+		try {
+			const { role } = user;
+			if (role != 'user') return response.status(401).send('You cannot perform this function');
+
+			const _id = request.params.id;
+			const order = await Order.findOne({ _id });
+
+			order.status = 'Delivered';
+			await order.save();
+
+			return response.status(200).send({ message: 'The Order is Delivered', status: order.status });
+		} catch (error) {
+			response.status(500).send(error.message);
 		}
 	}
 };
