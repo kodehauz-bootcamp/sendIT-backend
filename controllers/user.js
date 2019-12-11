@@ -15,7 +15,7 @@ module.exports = {
 			// 	return response.status(401).send({ message: 'Password is not correctly alligned' });
 			// }
 			const user = new User({
-				full_name: username,
+				full_name: full_name,
 				email: email,
 				password: password,
 				phone: phone,
