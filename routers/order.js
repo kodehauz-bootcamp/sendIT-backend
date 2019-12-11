@@ -16,12 +16,12 @@ router.post('/create/order', [ Auth, isUser ], CreateOrder);
 
 router.get('/getUser/Orders', [ Auth, isUser ], getUserOrders);
 
-router.get('/getSingle/order', [ Auth, isUser ], getOneOrder);
+router.get('/getSingle/order/:id', [ Auth, isUser ], getOneOrder);
 
 router.get('/getAll/orders', [ Auth, isAdmin ], getAllOrder);
 
-router.patch('/update/order', [ Auth, isUser ], updateOrder);
+router.patch('/update/order/:id', [ Auth, isUser ], updateOrder);
 
-router.delete('/delete/order', [ Auth, isUser ], deleteOrder);
+router.delete('/delete/order/:id', [ Auth, isUser ], deleteOrder);
 
 module.exports = router;

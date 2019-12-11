@@ -4,10 +4,11 @@ module.exports = {
 	//simple testing router
 	async CreateOrder(request, response) {
 		const user = request.user;
-		//adding the owner id to help know who created the id
+		//adding the ownerId id to help know who created the id
 		const order = new Order({
 			...request.body,
-			ownerId: user._id
+			ownerId: user._id,
+			status: 'Pending'
 		});
 
 		try {
@@ -21,7 +22,7 @@ module.exports = {
 	async updateOrder(request, response) {
 		//setting up validation for the keys to be updated
 		const updates = Object.keys(request.body);
-		const allowableOrder = [ 'description', 'completed' ];
+		const allowableOrder = [ 'parcel_name', 'weight', 'location', 'destination', 'phone_number', 'status' ];
 		const isValidOrder = updates.every((update) => allowableOrder.includes(update));
 
 		//Prompt invalid order inputs
@@ -34,7 +35,7 @@ module.exports = {
 		//Send valid data for update
 		try {
 			const user = request.user;
-			const updatedOrder = await Order.findOne({ _id, owner: user._id });
+			const updatedOrder = await Order.findOne({ _id, ownerId: user._id });
 			if (!updatedOrder) {
 				return response.status(404).send('Order not Found');
 			}
@@ -53,10 +54,16 @@ module.exports = {
 	},
 
 	async getAllOrder(request, response) {
-		try {
-			const order = Order.find();
-			response.status(200).send({ message: 'Success', order });
-		} catch (error) {}
+		// return console.log('userssssss');
+
+		Order.find({}, function(err, order) {
+			if (!err) {
+				response.status(200).send({ message: 'Success', order });
+				process.exit();
+			} else {
+				throw response.status(500).send(err.message);
+			}
+		});
 	},
 
 	async getUserOrders(request, response) {
@@ -76,22 +83,15 @@ module.exports = {
 		try {
 			const user = request.user;
 			// return console.log(user);
-			// const tasks = await Order.find({ owner: userProfile._id })
+			// const tasks = await Order.find({ ownerId: userProfile._id })
 			await user
 				.populate({
-					path: 'parcel_order',
-					match,
-					options: {
-						//this is used for pagination of data pages
-						limit: parseInt(request.query.limit),
-						skip: parseInt(request.query.skip),
-						//this new function helps to sort
-						sort
-					}
+					path: 'orders',
+					match
 				})
 				.execPopulate();
 
-			response.send(user.order);
+			response.send(user.orders);
 		} catch (e) {
 			response.status(400).send(e);
 		}
@@ -102,7 +102,7 @@ module.exports = {
 
 		try {
 			const user = request.user;
-			const deletedOrder = await Order.findByIdAndDelete({ _id, owner: user._id });
+			const deletedOrder = await Order.findByIdAndDelete({ _id, ownerId: user._id });
 
 			if (!deletedOrder) {
 				return response.status(404).send();
@@ -121,7 +121,7 @@ module.exports = {
 			const _id = request.params.id;
 			// const taskId = await Order.findById(_id);
 
-			const order = await Order.findOne({ _id, owner: user._id });
+			const order = await Order.findOne({ _id, ownerId: user._id });
 
 			if (!order) {
 				return response.status(404).send('Error: Message Not Found');
