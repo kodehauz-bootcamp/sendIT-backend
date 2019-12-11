@@ -64,7 +64,7 @@ module.exports = {
 			const adminProfile = request.user;
 			adminProfile.tokens = [];
 			await adminProfile.save();
-			return response.status(200).send(adminProfile);
+			return response.status(200).send({});
 		} catch (e) {
 			response.status(400).send(e.message);
 		}

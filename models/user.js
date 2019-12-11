@@ -21,7 +21,11 @@ const userSchema = mongoose.Schema(
 			type: String
 		},
 
-		image: {
+		image_url: {
+			type: String
+		},
+
+		image_public_id: {
 			type: String
 		},
 
