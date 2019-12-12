@@ -27,6 +27,11 @@ const orderSchema = mongoose.Schema(
 			trim: true
 		},
 
+		price: {
+			type: String,
+			trim: true
+		},
+
 		status: {
 			type: String
 		},
