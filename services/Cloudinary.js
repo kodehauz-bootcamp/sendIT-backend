@@ -23,8 +23,9 @@ async function cloudinaryImage(image) {
 }
 
 async function destroyCloudinaryImage(image, id) {
-	await cloudinary.v2.uploader.destroy(id, (error, result) => {
-		console.log(result);
+	await cloudinary.v2.uploader.destroy(id, (err, result) => {
+		if (err) console.log(err);
+		else console.log(result);
 	});
 
 	const buffer = await sharp(image.buffer)
