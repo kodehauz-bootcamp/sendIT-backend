@@ -7,7 +7,9 @@ const {
 	getUserOrders,
 	updateOrder,
 	deleteOrder,
-	getAllOrder
+	getAllOrder,
+	notifyProcessing,
+	notifyDelivered
 } = require('../controllers/order');
 
 const router = Router();
@@ -23,5 +25,9 @@ router.get('/getAll/orders', [ Auth, isAdmin ], getAllOrder);
 router.patch('/update/order/:id', [ Auth, isUser ], updateOrder);
 
 router.delete('/delete/order/:id', [ Auth, isUser ], deleteOrder);
+
+router.patch('/processing/order/:id', [ Auth, isAdmin ], notifyProcessing);
+
+router.patch('/delivered/order/:id', [ Auth, isUser ], notifyDelivered);
 
 module.exports = router;
