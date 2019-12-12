@@ -14,8 +14,6 @@ router.post('/login', loginUser);
 
 router.get('/me', [ Auth, isUser ], getUser);
 
-// router.get('/update', [ Auth, isUser ], updatedUser )
-
 router.patch('/update/user', [ Auth, isUser ], updatedUser);
 
 router.delete('/logout', [ Auth, isUser ], userLogout);

@@ -1,7 +1,7 @@
 const User = require('./../models/user');
 const generateAuthToken = require('./../utils/generateToken');
 const { hash, compareHash } = require('./../utils/hash');
-const { CloudinaryImage, destroyCloudinaryImage } = require('./../services/Cloudinary');
+const { cloudinaryImage, destroyCloudinaryImage } = require('./../services/Cloudinary');
 
 module.exports = {
 	async CreateUser(request, response) {
@@ -80,6 +80,7 @@ module.exports = {
 			if (!updatedUser) {
 				return response.status(404).send('User Not Found');
 			} else if (updatedUser.image_url) {
+				// return console.log(true);
 				const imageUrl = await destroyCloudinaryImage(request.file, updatedUser.image_public_id);
 
 				updatedUser.image_url = imageUrl.secure_url;
@@ -88,7 +89,7 @@ module.exports = {
 				await updatedUser.save();
 				response.status(201).send({ updatedUser });
 			} else {
-				const imageUrl = await CloudinaryImage(request.file);
+				const imageUrl = await cloudinaryImage(request.file);
 
 				updatedUser.image_url = imageUrl.secure_url;
 				updatedUser.image_public_id = imageUrl.public_id;
@@ -102,8 +103,6 @@ module.exports = {
 	},
 
 	async updatedUser(request, response) {
-		// response.send('i am here');
-		// return console.log(request.user);
 		//setting up validation for the keys to be updated
 		const updates = Object.keys(request.body);
 		const allowable = [ 'full_name', 'phone', 'address' ];
