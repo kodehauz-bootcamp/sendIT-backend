@@ -1,5 +1,11 @@
 const Order = require('../models/order');
-const { sendProcessingNotification, sendDeliveredNotification } = require('./../services/EmailSender');
+const {
+	sendOrderNotification,
+	sendProcessingNotification,
+	sendDeliveredNotification,
+	sendUserOrderNotification,
+	orderComplete
+} = require('./../services/EmailSender');
 
 module.exports = {
 	//simple testing router
@@ -15,6 +21,11 @@ module.exports = {
 		try {
 			const NewOrder = await order.save();
 			response.status(201).send({ NewOrder });
+			//send an email to the admin for the order
+			sendOrderNotification(user, NewOrder);
+
+			//send an email to the user
+			sendUserOrderNotification(user, NewOrder);
 		} catch (err) {
 			response.status(400).send(err);
 		}
@@ -149,7 +160,9 @@ module.exports = {
 			order.status = 'Processing';
 			await order.save();
 
-			return response.status(200).send({ message: 'The Order is in Process', status: order.status });
+			response.status(200).send({ message: 'The Order is in Process', status: order.status });
+			//sending email to user that the order is ongoing
+			sendProcessingNotification(user.email, _id);
 		} catch (error) {
 			response.status(500).send(error.message);
 		}
@@ -167,7 +180,13 @@ module.exports = {
 			order.status = 'Delivered';
 			await order.save();
 
-			return response.status(200).send({ message: 'The Order is Delivered', status: order.status });
+			response.status(200).send({ message: 'The Order is Delivered', status: order.status });
+
+			//sending email to user that the order is ongoing
+			sendDeliveredNotification(user.email, _id, user.full_name);
+
+			//thanking the user
+			orderComplete(_id, user.full_name);
 		} catch (error) {
 			response.status(500).send(error.message);
 		}
