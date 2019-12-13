@@ -2,6 +2,21 @@ const mongoose = require('mongoose');
 
 const orderSchema = mongoose.Schema(
 	{
+		sender_name: {
+			type: String,
+			trim: true
+		},
+
+		recipient_name: {
+			type: String,
+			trim: true
+		},
+
+		recipient_email: {
+			type: String,
+			trim: true
+		},
+
 		parcel_name: {
 			type: String,
 			trim: true
@@ -12,17 +27,32 @@ const orderSchema = mongoose.Schema(
 			trim: true
 		},
 
-		location: {
+		location_address: {
 			type: String,
 			trim: true
 		},
 
-		destination: {
+		location_state: {
 			type: String,
 			trim: true
 		},
 
-		phone_number: {
+		destination_address: {
+			type: String,
+			trim: true
+		},
+
+		destination_state: {
+			type: String,
+			trim: true
+		},
+
+		sender_phone_number: {
+			type: Number,
+			trim: true
+		},
+
+		recipient_phone_number: {
 			type: Number,
 			trim: true
 		},

@@ -34,7 +34,17 @@ module.exports = {
 	async updateOrder(request, response) {
 		//setting up validation for the keys to be updated
 		const updates = Object.keys(request.body);
-		const allowableOrder = [ 'parcel_name', 'weight', 'location', 'destination', 'phone_number', 'status' ];
+		const allowableOrder = [
+			'parcel_name',
+			'weight',
+			'destination_address',
+			'destination_state',
+			'status',
+			'recipient_phone_number',
+			'recipient_name',
+			'recipient_email',
+			'price'
+		];
 		const isValidOrder = updates.every((update) => allowableOrder.includes(update));
 
 		//Prompt invalid order inputs
