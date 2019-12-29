@@ -13,7 +13,6 @@ const Order = require('./routers/order');
 dotenv.config();
 
 const app = express();
-const PORT = parseInt(process.env.PORT, 10) || 5001;
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -24,12 +23,6 @@ app.use(
 );
 
 app.use(cors());
-
-//to allow control allow origin
-// app.use((req, res, next) => {
-// 	res.header('Access-Control-Allow-Origin', '*');
-// 	next();
-// });
 
 app.use('/', router);
 app.use('/api/v1', [ User, Contact, Admin, Order ]);
@@ -47,6 +40,4 @@ mongoose.connect(
 	}
 );
 
-app.listen(PORT, () => {
-	console.log(`server started at ${PORT}`);
-});
+module.exports = app;
