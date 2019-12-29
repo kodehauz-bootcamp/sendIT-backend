@@ -4,10 +4,11 @@
   "description": "The backend repository of the KodeHauz sendIT app.",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js --ignore tests",
+    "start": "node app.js",
+    "dev": "nodemon app.js --ignore tests",
     "heroku-postbuild": "npm run build",
-    "build": "babel index.js -d public/"
+    "build": "babel app.js -d public/",
+    "test": "mocha --timeout 10000 'tests/**/*.js'"
   },
   "repository": {
     "type": "git",
