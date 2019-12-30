@@ -12,9 +12,9 @@ module.exports = {
 				throw new Error("message: 'This email is already taken'");
 			}
 
-			if (password != passwordConfirm) {
-				return response.status(402).send({ message: 'Password is not correctly alligned' });
-			}
+			// if (password != passwordConfirm) {
+			// 	return response.status(402).send({ message: 'Password is not correctly alligned' });
+			// }
 			const admin = new User({
 				username: username,
 				email: email,
@@ -64,7 +64,7 @@ module.exports = {
 			const adminProfile = request.user;
 			adminProfile.tokens = [];
 			await adminProfile.save();
-			return response.status(200).send(adminProfile);
+			return response.status(200).send({});
 		} catch (e) {
 			response.status(400).send(e.message);
 		}

@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const userSchema = mongoose.Schema(
 	{
-		username: {
+		full_name: {
 			type: String
 		},
 		email: {
@@ -20,6 +20,15 @@ const userSchema = mongoose.Schema(
 		address: {
 			type: String
 		},
+
+		image_url: {
+			type: String
+		},
+
+		image_public_id: {
+			type: String
+		},
+
 		role: {
 			type: String
 		},
@@ -37,6 +46,13 @@ const userSchema = mongoose.Schema(
 		timestamps: true
 	}
 );
+
+//using virtual to create a relationship between user and owned directories
+userSchema.virtual('orders', {
+	ref: 'orderTable',
+	localField: '_id',
+	foreignField: 'ownerId'
+});
 
 const User = mongoose.model('user', userSchema);
 module.exports = User;

@@ -6,7 +6,10 @@ const auth = async (req, res, next) => {
 	// let token;
 	try {
 		//firstly is to get the token given by the user
-		const token = req.header('Authorization').replace('Bearer ', '') || req.headers['x-access-token'];
+		const token =
+			req.header('Authorization').replace('Bearer ', '') ||
+			req.headers['x-access-token'] ||
+			res.headers['x-access-token'];
 		// return console.log(token);
 		//decoding the token to get id and secret value
 		if (!token) return res.status(401).send('Access denied. No token provided.');

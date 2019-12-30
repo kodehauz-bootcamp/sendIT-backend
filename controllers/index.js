@@ -1,5 +1,5 @@
 const welcomeMessage = (request, response) => {
-  response.send('welcome to sendIT-backend');
-}
+	response.status(200).send('Welcome to sendIT-backend');
+};
 
 module.exports = welcomeMessage;

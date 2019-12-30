@@ -4,10 +4,11 @@
   "description": "The backend repository of the KodeHauz sendIT app.",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js --ignore tests",
+    "start": "node app.js",
+    "dev": "nodemon app.js --ignore tests",
     "heroku-postbuild": "npm run build",
-    "build": "babel index.js -d public/"
+    "build": "babel app.js -d public/",
+    "test": "mocha --timeout 10000 'tests/**/*.js'"
   },
   "repository": {
     "type": "git",
@@ -23,15 +24,22 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "chalk": "^3.0.0",
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "cloudinary": "^1.18.1",
     "cors": "^2.8.5",
+    "datauri": "^2.0.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
+    "mocha": "^6.2.2",
     "mongodb": "^3.3.4",
     "mongoose": "^5.7.11",
     "morgan": "^1.9.1",
+    "redis": "^2.8.0",
+    "multer": "^1.4.2",
     "nodemailer": "^6.4.0",
-    "redis": "^2.8.0"
+    "sharp": "^0.23.4"
   },
   "devDependencies": {
     "@babel/cli": "^7.7.0",
