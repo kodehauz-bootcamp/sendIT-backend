@@ -13,7 +13,7 @@ mongoose.Query.prototype.cache = function(options = {}) {
 	this.engagaeCache = true;
 
 	//setting the values as a anested object
-	this.nestKey = JSOn.stringify(options.key || '');
+	this.nestKey = JSON.stringify(options.key || '');
 
 	return this;
 };

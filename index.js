@@ -9,6 +9,8 @@ const User = require('./routers/user');
 const Admin = require('./routers/admin');
 const Contact = require('./routers/contact');
 const Order = require('./routers/order');
+const chalk = require('chalk');
+require('./services/cache');
 
 dotenv.config();
 
@@ -36,7 +38,7 @@ mongoose.connect(
 	},
 	function(err, client) {
 		if (err) console.log(err.message);
-		if (client) console.log('Databse Connected Successsful');
+		if (client) console.log(chalk.green.italic.inverse('Databse Connected Successsful'));
 	}
 );
 

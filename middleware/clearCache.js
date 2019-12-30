@@ -5,5 +5,5 @@ module.exports = async (req, res, next) => {
 	await next();
 
 	//when save a new blog we clear the cache and start again
-	clearNest(req.user.id);
+	clearNest(req.user._id);
 };
