@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const Auth = require('./../middleware/Auth');
 const { isUser, isAdmin } = require('./../middleware/isAdmin');
+const clearNest = require('./../middleware/clearCache');
 const {
 	CreateOrder,
 	getOneOrder,
@@ -14,7 +15,7 @@ const {
 
 const router = Router();
 
-router.post('/create/order', [ Auth, isUser ], CreateOrder);
+router.post('/create/order', [ Auth, isUser, clearNest ], CreateOrder);
 
 router.get('/getUser/Orders', [ Auth, isUser ], getUserOrders);
 

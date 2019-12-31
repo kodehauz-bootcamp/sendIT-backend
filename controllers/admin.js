@@ -58,6 +58,24 @@ module.exports = {
 		response.send(request.user);
 	},
 
+	async getAllUsers(request, response) {
+		try {
+			const users = await User.find({}).cache({ key: request.user._id });
+			// return console.log(users);
+			let userRole = [];
+
+			users.forEach((user) => {
+				if (user.role === 'user') {
+					// return console.log(user);
+					userRole.push(user);
+				}
+			});
+			response.status(200).send({ message: 'Success', userRole });
+		} catch (err) {
+			response.status(500).send(err.message);
+		}
+	},
+
 	async adminLogout(request, response) {
 		// return console.log(userProfile)
 		try {

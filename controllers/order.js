@@ -76,44 +76,44 @@ module.exports = {
 	},
 
 	async getAllOrder(request, response) {
-		// return console.log('userssssss');
-
-		Order.find({}, function(err, order) {
-			if (!err) {
-				response.status(200).send({ message: 'Success', order });
-				process.exit();
-			} else {
-				throw response.status(500).send(err.message);
-			}
-		});
+		try {
+			const orders = await Order.find({}).cache({ key: request.user._id });
+			response.status(200).send({ message: 'Success', orders });
+		} catch (error) {
+			throw response.status(500).send(err.message);
+		}
 	},
 
 	async getUserOrders(request, response) {
-		const match = {};
-		const sort = {};
+		// const match = {};
+		// const sort = {};
 
-		if (request.query.completed) {
-			match.completed = request.query.completed === 'true';
-		}
+		// if (request.query.completed) {
+		// 	match.completed = request.query.completed === 'true';
+		// }
 
-		if (request.query.sortBy) {
-			//accessing the string query to make your sorting process
-			const pathSort = request.query.sortBy.split(':');
-			sort[pathSort[0]] = pathSort[1] === 'desc' ? -1 : 1;
-		}
+		// if (request.query.sortBy) {
+		// 	//accessing the string query to make your sorting process
+		// 	const pathSort = request.query.sortBy.split(':');
+		// 	sort[pathSort[0]] = pathSort[1] === 'desc' ? -1 : 1;
+		// }
 
 		try {
 			const user = request.user;
-			// return console.log(user);
+			// return console.log(user.id);
 			// const tasks = await Order.find({ ownerId: userProfile._id })
-			await user
-				.populate({
-					path: 'orders',
-					match
-				})
-				.execPopulate();
+			// await user
+			// 	.populate({
+			// 		path: 'orders',
+			// 		match
+			// 	})
+			// 	.execPopulate();
 
-			response.send(user.orders);
+			// response.send(user.orders);
+
+			const orders = await Order.find({ ownerId: user._id }).cache({ key: user._id });
+			// console.log('Serving from mongodb')
+			response.send(orders);
 		} catch (e) {
 			response.status(400).send(e);
 		}
