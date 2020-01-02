@@ -4,7 +4,7 @@ const util = require('util');
 const chalk = require('chalk');
 
 //get redis url
-const client = redis.createClient(process.env.redisUrl);
+const client = redis.createClient(process.env.REDIS_URL);
 client.hget = util.promisify(client.hget);
 
 //getting the default query setup of mongoose
@@ -52,5 +52,6 @@ mongoose.Query.prototype.exec = async function() {
 module.exports = {
 	clearNest(nestKey) {
 		client.del(JSON.stringify(nestKey));
-	}
+	},
+	client
 };
