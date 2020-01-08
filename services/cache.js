@@ -2,9 +2,23 @@ const mongoose = require('mongoose');
 const redis = require('redis');
 const util = require('util');
 const chalk = require('chalk');
+const redisPort = '15780';
+
+const client = redis.createClient({
+	port: redisPort,
+	host: process.env.REDIS_URL
+});
+
+client.auth(process.env.redisAuth, function(err, response) {
+	if (err) {
+		throw err;
+	}
+
+	if (response) console.log(chalk.bgMagenta('Redis Is Connected'));
+});
 
 //get redis url
-const client = redis.createClient(process.env.REDIS_URL);
+// const client = redis.createClient(process.env.REDIS_URL);
 client.hget = util.promisify(client.hget);
 
 //getting the default query setup of mongoose
