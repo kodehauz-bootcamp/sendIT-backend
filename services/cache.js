@@ -2,12 +2,15 @@ const mongoose = require('mongoose');
 const redis = require('redis');
 const util = require('util');
 const chalk = require('chalk');
+// const redisUrl = '';
 const redisPort = '15780';
 
-const client = redis.createClient({
-	port: redisPort,
-	host: process.env.REDIS_URL
-});
+const client =
+	redis.createClient(process.env.redisUrl) ||
+	redis.createClient({
+		port: redisPort,
+		host: process.env.REDIS_URL
+	});
 
 client.auth(process.env.redisAuth, function(err, response) {
 	if (err) {

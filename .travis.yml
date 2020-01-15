@@ -4,6 +4,7 @@ node_js:  #this specifies the version of node_js used for this project
 dist: trusty  #this is the type of server this ci is running on
 services:  #..this se=pecifies the array of services that travis ci will install to run the application in the VM
   -mongodb
+  -redis-server
 env:  #this is the environmental variables used for the ci
   - NODE_ENV=ci # ...it routes us to the directory of the ci keys
   - PORT=5001
