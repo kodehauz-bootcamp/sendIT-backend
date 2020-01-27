@@ -3,14 +3,17 @@ const turf = require('@turf/turf');
 
 //calculating distance between cordinates
 
-const generateDistance = async (laitude, longitude) => {
+const generateDistance = async (order) => {
 	try {
-		const location = turf.point(laitude);
-		const destination = turf.point(longitude);
+		const location = turf.point(order.location_cordinates);
+		const destination = turf.point(order.destination_cordinates);
 		// return console.log(location, destination);
 		const options = { units: 'kilometers' };
 
 		const distance = await turf.distance(location, destination, options);
+		order.travel_distance = distance;
+
+		await order.save();
 		return distance;
 	} catch (error) {
 		throw new Error('Distance is not available');

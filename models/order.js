@@ -59,6 +59,10 @@ const orderSchema = mongoose.Schema(
 			trim: true
 		},
 
+		travel_distance: {
+			type: String
+		},
+
 		sender_phone_number: {
 			type: Number,
 			trim: true

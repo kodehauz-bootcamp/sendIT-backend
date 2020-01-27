@@ -1,5 +1,6 @@
 const Order = require('../models/order');
 const generateDistance = require('./../utils/distance');
+const generatePrice = require('./../utils/price');
 const {
 	sendOrderNotification,
 	sendProcessingNotification,
@@ -20,11 +21,16 @@ module.exports = {
 		});
 
 		try {
-			const distance = await generateDistance([ -75.343, 39.984 ], [ -75.534, 39.123 ]);
-			return console.log(distance);
 			const NewOrder = await order.save();
 
+			//calculate the distance
+			await generateDistance(NewOrder);
+
+			//calculate price
+			await generatePrice(NewOrder);
+
 			response.status(201).send({ NewOrder });
+
 			//send an email to the admin for the order
 			sendOrderNotification(user, NewOrder);
 
